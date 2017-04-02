@@ -78,21 +78,20 @@ class HuffmanTree(object):
         Return:
             :return: a dictionary with character as key, code as value
         """
-        codes = {}
-        code = ""
-        self.build_codec_helper(codes, code)
-        return codes
+        a_codes = {}
+        a_code = ""
 
-    def build_codec_helper(self, codes, code):
-        if self.left is None and self.right is None:
-            codes[self.get_char()] = code
-        else:
-            code += "0"
-            self.left.build_codec_helper(codes, code)
-            code = code[:-1]
-            code += "1"
-            self.right.build_codec_helper(codes, code)
-
+        def build_codec_helper(HT, codes, code):
+            if HT.left is None and HT.right is None:
+                codes[HT.get_char()] = code
+            else:
+                code += "0"
+                build_codec_helper(HT.left, codes, code)
+                code = code[:-1]
+                code += "1"
+                build_codec_helper(HT.right, codes, code)
+        build_codec_helper(self, a_codes, a_code)
+        return a_codes
 
 
 if __name__ == '__main__':
