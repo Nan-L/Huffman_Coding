@@ -84,6 +84,13 @@ class HuffmanTree(object):
             :return: a dictionary with character as key, code as value
         """
         def build_codec_helper(HT, codes, code):
+            """
+            a helper method
+            :param HT: a HuffmanTree
+            :param codes: a dictionary of char-code pairs
+            :param code: the code for a char
+            :return: None
+            """
             if HT.left is None and HT.right is None:
                 codes[HT.get_char()] = code
             else:
