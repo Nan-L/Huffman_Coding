@@ -113,13 +113,15 @@ def build_codec(freq_list):
         temp2 = heap.dequeue()
         item3 = HT.HuffmanTree(temp1.get_freq()+temp2.get_freq(),left=temp1,right=temp2)
         heap.enqueue(item3)
-    while True:
-        temp1 = heap.dequeue()
-        temp2 = heap.dequeue()
-        item3 = HT.HuffmanTree(temp1.get_freq() + temp2.get_freq(), left=temp1, right=temp2)
-        if len(heap.new) == 0:
+    if len(heap.new) >= 2:
+        while True:
+            temp1 = heap.dequeue()
+            temp2 = heap.dequeue()
+            item3 = HT.HuffmanTree(temp1.get_freq() + temp2.get_freq(), left=temp1, right=temp2)
+            if len(heap.new) == 0:
+                heap.enqueue(item3)
+                break
             heap.enqueue(item3)
-            break
     return heap.new[0].build_codec()
 
 
@@ -138,7 +140,6 @@ def encode(strings, codec):
         to be sent to the output
     """
     a = len(codec)
-    print(codec)
     counter = 0
     for line in strings:
         if line == "":
@@ -148,10 +149,8 @@ def encode(strings, codec):
     for key in codec:
         output.append(codec[key]+":'"+key+"'")
     for line in strings:
-        print(line)
         buffer = ""
         for character in line:
-            print(character)
             buffer += codec[character]
         output.append(buffer)
     return output
