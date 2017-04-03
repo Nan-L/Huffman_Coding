@@ -6,7 +6,7 @@
 # CMPT145 02
 # CMPT145 L08
 
-import sys as sys
+#import sys as sys
 import Huffman as HT
 import HuffmanHeap as HP
 
@@ -21,15 +21,18 @@ def main():
     Return:
         :return: None
     """
-    if len(sys.argv) != 2:
-        print('Usage: python3', sys.argv[0], '<filename>')
-        print('-- sends output to', DEFAULT_OUTPUT_FILE, '-- ')
-        return
+    #if len(sys.argv) != 2:
+    #    print('Usage: python3', sys.argv[0], '<filename>')
+    #    print('-- sends output to', DEFAULT_OUTPUT_FILE, '-- ')
+     #   return
 
-    fname = sys.argv[1]
+    #fname = sys.argv[1]
+    fname = "counting-example.txt"
     lines = read_file(fname)
     freqs = count_characters(lines)
     codec = build_codec(freqs)
+    print(codec)
+
     coded = encode(lines, codec)
     write_file(DEFAULT_OUTPUT_FILE, coded)
 
@@ -98,15 +101,29 @@ def build_codec(freq_list):
     """
 
     def get_frequency(a_HuffmanTree):
+        """
+        helper function for sorting the list according to frequency of the char
+        :param a_HuffmanTree:
+        :return:
+        """
         return a_HuffmanTree.get_freq()
 
-    leafs = [HT.HuffmanTree(freq=f, char=c) for f, c in freq_list]
+    leafs = [HT.HuffmanTree(freq=f, char=c) for c,f in freq_list]
     leafs.sort(key=get_frequency)
-    new_list = []
-
-    pass
-
-def build_codec_helper(old_list, new_list):
+    heap = HP.HuffmanHeap(leafs, [])
+    while len(heap.old) != 0:
+        temp1 = heap.dequeue()
+        temp2 = heap.dequeue()
+        item3 = HT.HuffmanTree(temp1.get_freq()+temp2.get_freq(),left=temp1,right=temp2)
+        heap.enqueue(item3)
+    while True:
+        temp1 = heap.dequeue()
+        temp2 = heap.dequeue()
+        item3 = HT.HuffmanTree(temp1.get_freq() + temp2.get_freq(), left=temp1, right=temp2)
+        if len(heap.new) == 0:
+            heap.enqueue(item3)
+            break
+    return heap.new[0].build_codec()
 
 
 def encode(strings, codec):

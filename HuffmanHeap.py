@@ -1,7 +1,7 @@
 class HuffmanHeap(object):
     """
-    old: the old list of Huffmantrees
-    new:  the new list of Huffmantrees
+    old: the old list of Huffmantrees, sorted.
+    new:  the new list of Huffmantrees, sorted.
     """
 
     def __init__(self, old, new=None):
@@ -9,6 +9,11 @@ class HuffmanHeap(object):
         self.new = new
 
     def enqueue(self, item):
+        """
+        push a Huffmantree into the new list
+        :param item: a Huffmantree
+        :return: None
+        """
         self.new.append(item)
 
     def dequeue(self):
@@ -18,11 +23,11 @@ class HuffmanHeap(object):
         """
         if len(self.old) == 0:
             item = self.new.pop(0)
-        if len(self.new) == 0:
+        elif len(self.new) == 0:
             item = self.old.pop(0)
         else:
-            if self.old[0] > self.new[0]:
-                item = self.new.pop[0]
+            if self.old[0].get_freq() >= self.new[0].get_freq():
+                item = self.new.pop(0)
             else:
-                item = self.old.pop[0]
+                item = self.old.pop(0)
         return item
