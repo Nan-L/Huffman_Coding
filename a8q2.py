@@ -31,8 +31,6 @@ def main():
     lines = read_file(fname)
     freqs = count_characters(lines)
     codec = build_codec(freqs)
-    print(codec)
-
     coded = encode(lines, codec)
     write_file(DEFAULT_OUTPUT_FILE, coded)
 
@@ -99,7 +97,6 @@ def build_codec(freq_list):
     Return:
         :return: a dictionary
     """
-
     def get_frequency(a_HuffmanTree):
         """
         helper function for sorting the list according to frequency of the char
@@ -140,9 +137,23 @@ def encode(strings, codec):
             the coded lines
         to be sent to the output
     """
-    # TODO: Assignment 8 Question 2
-    # complete this function
-    output = []
+    a = len(codec)
+    print(codec)
+    counter = 0
+    for line in strings:
+        if line == "":
+            counter += 1
+    b = len(strings) - counter
+    output = [str(a)+" "+str(b)]
+    for key in codec:
+        output.append(codec[key]+":'"+key+"'")
+    for line in strings:
+        print(line)
+        buffer = ""
+        for character in line:
+            print(character)
+            buffer += codec[character]
+        output.append(buffer)
     return output
 
 
