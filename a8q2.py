@@ -6,7 +6,7 @@
 # CMPT145 02
 # CMPT145 L08
 
-#import sys as sys
+import sys as sys
 import Huffman as HT
 import HuffmanHeap as HP
 
@@ -26,8 +26,7 @@ def main():
     #    print('-- sends output to', DEFAULT_OUTPUT_FILE, '-- ')
      #   return
 
-    #fname = sys.argv[1]
-    fname = "counting-example.txt"
+    fname = sys.argv[1]
     lines = read_file(fname)
     freqs = count_characters(lines)
     codec = build_codec(freqs)
