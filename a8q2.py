@@ -21,10 +21,10 @@ def main():
     Return:
         :return: None
     """
-    #if len(sys.argv) != 2:
-    #    print('Usage: python3', sys.argv[0], '<filename>')
-    #    print('-- sends output to', DEFAULT_OUTPUT_FILE, '-- ')
-     #   return
+    if len(sys.argv) != 2:
+        print('Usage: python3', sys.argv[0], '<filename>')
+        print('-- sends output to', DEFAULT_OUTPUT_FILE, '-- ')
+        return
 
     fname = sys.argv[1]
     lines = read_file(fname)
