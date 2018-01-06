@@ -1,8 +1,7 @@
-# CMPT 145: Assignment 8 Question 2
-#
 
 import sys as sys
 import Huffman as HT
+import HuffmanHeap as HP
 
 DEFAULT_OUTPUT_FILE = 'encoded.txt'
 
@@ -90,10 +89,32 @@ def build_codec(freq_list):
     Return:
         :return: a dictionary
     """
-    # TODO: Assignment 8 Question 2
-    # complete this function
+    def get_frequency(a_HuffmanTree):
+        """
+        helper function for sorting the list according to frequency of the char
+        :param a_HuffmanTree:
+        :return:
+        """
+        return a_HuffmanTree.get_freq()
 
-    pass
+    leafs = [HT.HuffmanTree(freq=f, char=c) for c,f in freq_list]
+    leafs.sort(key=get_frequency)
+    heap = HP.HuffmanHeap(leafs, [])
+    while len(heap.old) != 0:
+        temp1 = heap.dequeue()
+        temp2 = heap.dequeue()
+        item3 = HT.HuffmanTree(temp1.get_freq()+temp2.get_freq(),left=temp1,right=temp2)
+        heap.enqueue(item3)
+    if len(heap.new) >= 2:
+        while True:
+            temp1 = heap.dequeue()
+            temp2 = heap.dequeue()
+            item3 = HT.HuffmanTree(temp1.get_freq() + temp2.get_freq(), left=temp1, right=temp2)
+            if len(heap.new) == 0:
+                heap.enqueue(item3)
+                break
+            heap.enqueue(item3)
+    return heap.new[0].build_codec()
 
 
 def encode(strings, codec):
@@ -110,9 +131,20 @@ def encode(strings, codec):
             the coded lines
         to be sent to the output
     """
-    # TODO: Assignment 8 Question 2
-    # complete this function
-    output = []
+    a = len(codec)
+    counter = 0
+    for line in strings:
+        if line == "":
+            counter += 1
+    b = len(strings) - counter
+    output = [str(a)+" "+str(b)]
+    for key in codec:
+        output.append(codec[key]+":'"+key+"'")
+    for line in strings:
+        buffer = ""
+        for character in line:
+            buffer += codec[character]
+        output.append(buffer)
     return output
 
 

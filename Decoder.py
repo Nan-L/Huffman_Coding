@@ -1,6 +1,3 @@
-# CMPT 145: Assignment 8 Question 3
-#
-
 import sys as sys
 
 DEFAULT_OUTPUT_FILE = '<console>'
@@ -19,13 +16,7 @@ def main():
         print('-- sends output to', DEFAULT_OUTPUT_FILE, '-- ')
         return
 
-    s = read_file(sys.argv[1])
-    sizes = s[0].split()
-    code_size = int(sizes[0])
-    message_size = int(sizes[1])
-    codes = s[1:code_size + 1]
-    encoded = s[code_size + 1:code_size + message_size + 1]
-
+    codes, encoded = read_file(sys.argv[1])
     dc = build_decoder(codes)
     for enc in encoded:
         message = decode_message(enc, dc)
@@ -81,12 +72,20 @@ def read_file(fname):
     Preconditions:
         :param fname: a file name
     Return:
-        :return: a list of strings consisting of the contents of the file
+        :return: codes is the given list of code-lines read from the file, encoded is the encoded string read from the file
     """
     f = open(fname)
-    lines = [l.rstrip() for l in f if l]
+    firstline = f.readline().split()
+    code_size = int(firstline[0])
+    message_size = int(firstline[1])
+    codes = []
+    encoded = []
+    for i in range(code_size):
+        codes.append(f.readline().rstrip())
+    for i in range(message_size):
+        encoded.append(f.readline().rstrip())
     f.close()
-    return lines
+    return codes, encoded
 
 
 if __name__ == '__main__':

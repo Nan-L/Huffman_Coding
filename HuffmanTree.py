@@ -75,10 +75,14 @@ class HuffmanTree(object):
         Return:
             :return: a dictionary with character as key, code as value
         """
-        a_codes = {}
-        a_code = ""
-
         def build_codec_helper(HT, codes, code):
+            """
+            a helper method
+            :param HT: a HuffmanTree
+            :param codes: a dictionary of char-code pairs
+            :param code: the code for a char
+            :return: None
+            """
             if HT.left is None and HT.right is None:
                 codes[HT.get_char()] = code
             else:
@@ -87,12 +91,18 @@ class HuffmanTree(object):
                 code = code[:-1]
                 code += "1"
                 build_codec_helper(HT.right, codes, code)
-        build_codec_helper(self, a_codes, a_code)
+
+        a_codes = {}
+        a_code = ""
+        if self.left is None and self.right is None:
+            a_codes[self.get_char()] = "0"
+        else:
+            build_codec_helper(self, a_codes, a_code)
         return a_codes
 
 
 if __name__ == '__main__':
-    # build the tree used in class example
+    # build the tree
     # start with a colection of trees from a frequency list
 
     freqs = [(10,'A'), (3, 'C'), (4, 'D'), (15, 'E'), (2, 'G'), (6, 'I')]
